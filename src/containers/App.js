@@ -1,19 +1,23 @@
-import Timer from '../components/Timer'
-import { useEffect, useState } from 'react';
-import { StartButton, PauseButton, RestartButton, SkipBreakButton } from '../components/Buttons'
+import React, { useEffect, useState } from 'react';
+import Timer from '../components/Timer';
+import { StartButton, PauseButton, RestartButton, SkipBreakButton } from '../components/Buttons';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { FaCheck } from 'react-icons/fa';
 import 'tachyons';
+import './App.css';
+import { ColorPicker1, ColorPicker2 } from '../components/ColorPickers';
 
 function App() {
-  const workTime = 11;
-  const breakTime = 11;
+  const workTime = 1800;
+  const breakTime = 300;
   const desiredRepitions = 6;
   const [time, setTime] = useState(workTime);
   const [isRunning, setIsRunning] = useState(false);
   const [isFocusing, setIsFocusing] = useState(true);
   const [sessionsComplete, setSessionsComplete] = useState(0);
+  const [color1, setColor1] = useState('#ff0000');
+  const [color2, setColor2] = useState('#ffff00');
 
   useEffect(() => {
     let interval = null;
@@ -38,33 +42,47 @@ function App() {
   }, [isRunning, time, isFocusing]);
 
   function handleStart() {
-    setIsRunning(true)
+    setIsRunning(true);
   }
   function handlePause() {
-    setIsRunning(false)
+    setIsRunning(false);
   }
   function handleRestart() {
-
-    setIsRunning(false)
-    setTime(workTime)
+    setIsRunning(false);
+    setTime(workTime);
   }
   function handleSkipBreak() {
-    setIsRunning(false)
-    setIsFocusing(true)
-    setTime(workTime)
+    setIsRunning(false);
+    setIsFocusing(true);
+    setTime(workTime);
   }
 
   const progress = (sessionsComplete / desiredRepitions) * 100;
 
+  const gradientStyle = {
+    background: `linear-gradient(to right, ${color1}, ${color2})`,
+    height: '100vh',
+    width: '100%',
+    position: 'relative',
+  };
+
   return (
-    <div className='tc'>
-      <Timer time={time} />
-      <div>
-        <StartButton onClick={handleStart} />
-        <PauseButton onClick={handlePause} />
-        {isFocusing ? <RestartButton onClick={handleRestart} /> : <SkipBreakButton onClick={handleSkipBreak} />}
+    <div className="tc" style={gradientStyle}>
+      <div className="flex justify-between pa3">
+        <ColorPicker1 color={color1} setColor={setColor1} />
+        <ColorPicker2 color={color2} setColor={setColor2} />
       </div>
-      <div>
+      <Timer time={time} />
+      <div className="button-container mt4">
+        <StartButton onClick={handleStart} color1={color1} color2={color2} />
+        <PauseButton onClick={handlePause} color1={color1} color2={color2} />
+        {isFocusing ? (
+          <RestartButton onClick={handleRestart} color1={color1} color2={color2} />
+        ) : (
+          <SkipBreakButton onClick={handleSkipBreak} color1={color1} color2={color2} />
+        )}
+      </div>
+      <div className="mt3">
         <h5>Sessions complete: {sessionsComplete}</h5>
       </div>
       <div className="flex justify-center items-center" style={{ height: '50vh' }}>
@@ -77,7 +95,7 @@ function App() {
               pathColor: progress === 100 ? '#4caf50' : `rgba(62, 152, 199, ${progress / 100})`,
               textColor: '#3e98c7',
               trailColor: '#d6d6d6',
-              backgroundColor: '#4caf50'
+              backgroundColor: '#4caf50',
             })}
           >
             {progress === 100 ? (
@@ -95,3 +113,4 @@ function App() {
 }
 
 export default App;
+

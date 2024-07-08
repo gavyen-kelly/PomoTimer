@@ -1,0 +1,63 @@
+/* General styles for the color picker inputs */
+input[type="color"].input-reset {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+    outline: none;
+}
+
+/* Button styles */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    margin: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    flex-grow: 1;
+    /* Make buttons grow to take up available space */
+    text-align: center;
+    color: white;
+    border: none;
+    background: #4caf50;
+    /* Default background for StartButton */
+    transition: all 0.3s ease;
+}
+
+.btn-start {
+    background: linear-gradient(to right, #4caf50, #8bc34a);
+    /* Green gradient */
+}
+
+.btn-pause {
+    background: linear-gradient(to right, #ffeb3b, #fdd835);
+    /* Yellow gradient */
+}
+
+.btn-restart,
+.btn-skip {
+    background: linear-gradient(to right, #f44336, #e57373);
+    /* Red gradient */
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* Flex container for the buttons */
+.button-container {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
